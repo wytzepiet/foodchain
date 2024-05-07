@@ -28,7 +28,7 @@ const menu: MenuItem[] = [
   {
     title: i18n.sup.suppliers,
     href: "#",
-    icon: icons.Truck,
+    icon: icons.Factory,
     items: [{ title: i18n.sup.suppliers, href: "#" }],
   },
   {

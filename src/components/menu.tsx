@@ -7,11 +7,16 @@ import {
 import { buttonVariants } from "@/components/ui/button";
 import UserSelect from "./userSelect";
 import menu from "~/main/menu";
+import { Image, ImageFallback, ImageRoot } from "@/components/ui/image";
 
 const Menu = () => {
   return (
-    <div class="pt-4 px-3 h-full bg-background border-r">
-      <UserSelect />
+    <div class="pt-4 px-3 h-full bg-card border-r flex flex-col">
+      {/* <UserSelect /> */}
+      <ImageRoot class="size-24 self-center">
+        <Image src="/actifood.png" />
+        <ImageFallback>VHC</ImageFallback>
+      </ImageRoot>
       <Accordion collapsible class="px-1">
         {menu.map((item, i) => (
           <AccordionItem value={"menu-item-" + i}>

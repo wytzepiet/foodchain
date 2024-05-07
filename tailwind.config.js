@@ -1,10 +1,11 @@
 /** @type {import('tailwindcss').Config} */
 export default {
+  mode: "jit",
   darkMode: ["class", '[data-kb-theme="dark"]'],
   content: [
     "./src/**/*.{js,jsx,ts,tsx}",
-    "src/routes/**/*.{ts,tsx}",
-    "src/components/**/*.{ts,tsx}",
+    // "src/routes/**/*.{ts,tsx}",
+    // "src/components/**/*.{ts,tsx}",
   ],
   prefix: "",
   theme: {

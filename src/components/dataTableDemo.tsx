@@ -5,7 +5,6 @@ import type {
   Column,
   ColumnDef,
   ColumnFiltersState,
-  PaginationState,
   SortingState,
   VisibilityState,
 } from "@tanstack/solid-table";
@@ -18,31 +17,11 @@ import {
   getSortedRowModel,
 } from "@tanstack/solid-table";
 import type { VoidProps } from "solid-js";
-import {
-  For,
-  Match,
-  Show,
-  Switch,
-  createEffect,
-  createSignal,
-  on,
-  onMount,
-  splitProps,
-} from "solid-js";
+import { For, Match, Show, Switch, createSignal, splitProps } from "solid-js";
 import { z } from "zod";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Checkbox, CheckboxControl } from "@/components/ui/checkbox";
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuGroupLabel,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import {
   Select,
   SelectContent,
@@ -69,6 +48,21 @@ type Task = {
   label: "bug" | "feature" | "enhancement" | "documentation";
 };
 import { i18n } from "~/main/i18n";
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuGroupLabel,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Card } from "./ui/card";
 
 const makeData = (len: number) =>
   Array.from({ length: len }, (_, i) => i).map(
@@ -319,7 +313,7 @@ const columns: ColumnDef<Task>[] = [
       <TableColumnHeader column={props.column} title="Status" />
     ),
     cell: (props) => (
-      <div class="flex w-[100px] items-center">
+      <div class="flex w-32 items-center">
         <Switch>
           <Match when={props.row.original.status === "cancelled"}>
             <svg
@@ -452,7 +446,7 @@ const DataTableDemo = () => {
 
   const sortingParams = sort?.split(",").map((v) => v.split(".")) ?? [];
 
-  const [data] = createSignal(makeData(1000));
+  const [data] = createSignal(makeData(100));
   const [rowSelection, setRowSelection] = createSignal({});
   const [columnVisibility, setColumnVisibility] = createSignal<VisibilityState>(
     {}
@@ -541,7 +535,7 @@ const DataTableDemo = () => {
           <TextFieldInput
             type="text"
             placeholder="Zoek een artikel..."
-            class="bg-background w-80"
+            class="bg-card w-80"
             value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
             onInput={(e) =>
               table.getColumn("title")?.setFilterValue(e.currentTarget.value)
@@ -572,7 +566,7 @@ const DataTableDemo = () => {
                 component={Button}
                 variant="outline"
                 size="sm"
-                class="relative flex w-full gap-2 [&>svg]:hidden bg-background"
+                class="relative flex w-full gap-2 [&>svg]:hidden bg-card"
               >
                 <div class="flex items-center">
                   <icons.Filter class="h-4" />
@@ -662,11 +656,99 @@ const DataTableDemo = () => {
             <icons.CirclePlus class="h-4" />
             {i18n.t({ en: "Add product", nl: "Artikel Toevoegen" })()}
           </Button>
+
+          <DropdownMenu placement="bottom-start">
+            <DropdownMenuTrigger
+              as={(props) => (
+                <Button variant="outline" class="px-2" {...props}>
+                  <icons.EllipsisVertical class="h-4" />
+                </Button>
+              )}
+            />
+            <DropdownMenuContent class="w-56">
+              <DropdownMenuGroup>
+                <DropdownMenuGroupLabel>My Account</DropdownMenuGroupLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>
+                  <i class="i-lucide:user mr-2" />
+                  <span>Profile</span>
+                  <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <i class="i-lucide:credit-card mr-2" />
+                  <span>Billing</span>
+                  <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <i class="i-lucide:settings mr-2" />
+                  <span>Settings</span>
+                  <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <i class="i-lucide:keyboard mr-2" />
+                  <span>Keyboard shortcuts</span>
+                  <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
+                </DropdownMenuItem>
+              </DropdownMenuGroup>
+              <DropdownMenuSeparator />
+              <DropdownMenuGroup>
+                <DropdownMenuItem>
+                  <i class="i-lucide:user mr-2" />
+                  <span>Team</span>
+                </DropdownMenuItem>
+                <DropdownMenuSub>
+                  <DropdownMenuSubTrigger>
+                    <i class="i-lucide:user-plus mr-2" />
+                    <span>Invite users</span>
+                  </DropdownMenuSubTrigger>
+                  <DropdownMenuSubContent>
+                    <DropdownMenuItem>
+                      <i class="i-lucide:mail mr-2" />
+                      <span>Email</span>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem>
+                      <i class="i-lucide:message-square mr-2" />
+                      <span>Message</span>
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem>
+                      <i class="ilucide:plus-circle mr-2" />
+                      <span>More...</span>
+                    </DropdownMenuItem>
+                  </DropdownMenuSubContent>
+                </DropdownMenuSub>
+                <DropdownMenuItem>
+                  <i class="i-lucide:plus mr-2" />
+                  <span>New Team</span>
+                  <DropdownMenuShortcut>⌘+T</DropdownMenuShortcut>
+                </DropdownMenuItem>
+              </DropdownMenuGroup>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>
+                <i class="i-lucide:github mr-2" />
+                <span>GitHub</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <i class="i-lucide:life-buoy mr-2" />
+                <span>Support</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem disabled>
+                <i class="i-lucide:cloud mr-2" />
+                <span>API</span>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>
+                <i class="i-lucide:log-out mr-2" />
+                <span>Log out</span>
+                <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </div>
-      <div class="rounded-md border h-full overflow-scroll relative">
+      <Card class="h-full overflow-y-scroll relative">
         <Table>
-          <TableHeader class="sticky top-0 z-10 bg-background">
+          <TableHeader class="sticky top-0 z-10 bg-card">
             {/* <div class="absolute inset-0 w-full bg-red-500"></div> */}
             <For each={table.getHeaderGroups()}>
               {(headerGroup) => (
@@ -689,7 +771,7 @@ const DataTableDemo = () => {
               )}
             </For>
           </TableHeader>
-          <TableBody class="h-10 overflow-hidden bg-background">
+          <TableBody class="h-10 overflow-hidden bg-card">
             <Show
               when={table.getRowModel().rows?.length}
               fallback={
@@ -719,134 +801,7 @@ const DataTableDemo = () => {
             </Show>
           </TableBody>
         </Table>
-      </div>
-      {/* <div class="flex w-full flex-col-reverse items-center justify-between gap-4 overflow-auto px-2 py-1 sm:flex-row">
-        <div class="flex-1 whitespace-nowrap text-sm text-muted-foreground">
-          {table.getFilteredSelectedRowModel().rows.length} of{" "}
-          {table.getFilteredRowModel().rows.length} row(s) selected.
-        </div>
-        <div class="flex flex-col-reverse items-center gap-4 sm:flex-row">
-          <div class="flex items-center space-x-2">
-            <p class="whitespace-nowrap text-sm font-medium">Rows per page</p>
-            <Select
-              value={table.getState().pagination.pageSize}
-              onChange={(value) => table.setPageSize(value)}
-              options={[10, 20, 30, 40, 50]}
-              itemComponent={(props) => (
-                <SelectItem item={props.item}>{props.item.rawValue}</SelectItem>
-              )}
-            >
-              <SelectTrigger class="h-8 w-[4.5rem]">
-                <SelectValue<string>>
-                  {(state) => state.selectedOption()}
-                </SelectValue>
-              </SelectTrigger>
-              <SelectContent />
-            </Select>
-          </div>
-          <div class="flex items-center justify-center whitespace-nowrap text-sm font-medium">
-            Page {table.getState().pagination.pageIndex + 1} of{" "}
-            {table.getPageCount()}
-          </div>
-          <div class="flex items-center space-x-2">
-            <Button
-              aria-label="Go to first page"
-              variant="outline"
-              class="flex size-8 p-0"
-              onClick={() => table.setPageIndex(0)}
-              disabled={!table.getCanPreviousPage()}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="size-4"
-                aria-hidden="true"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="m11 7l-5 5l5 5m6-10l-5 5l5 5"
-                />
-              </svg>
-            </Button>
-            <Button
-              aria-label="Go to previous page"
-              variant="outline"
-              size="icon"
-              class="size-8"
-              onClick={() => table.previousPage()}
-              disabled={!table.getCanPreviousPage()}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="size-4"
-                aria-hidden="true"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="m15 6l-6 6l6 6"
-                />
-              </svg>
-            </Button>
-            <Button
-              aria-label="Go to next page"
-              variant="outline"
-              size="icon"
-              class="size-8"
-              onClick={() => table.nextPage()}
-              disabled={!table.getCanNextPage()}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="size-4"
-                aria-hidden="true"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="m9 6l6 6l-6 6"
-                />
-              </svg>
-            </Button>
-            <Button
-              aria-label="Go to last page"
-              variant="outline"
-              size="icon"
-              class="flex size-8"
-              onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-              disabled={!table.getCanNextPage()}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="size-4"
-                aria-hidden="true"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="m7 7l5 5l-5 5m6-10l5 5l-5 5"
-                />
-              </svg>
-            </Button>
-          </div>
-        </div>
-      </div> */}
+      </Card>
     </div>
   );
 };
