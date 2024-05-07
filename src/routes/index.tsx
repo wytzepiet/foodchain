@@ -16,8 +16,16 @@ import {
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
 import { i18n } from "~/main/i18n";
+import { Shortcut, ShortcutLabel } from "~/components/shortcut";
 
 export default function Index() {
+  const profile = new Shortcut(["shift", "ctrl", "p"]);
+  const billing = new Shortcut(["ctrl", "p"]);
+  const settings = new Shortcut(["ctrl", "s"]);
+  const keyboardShortcuts = new Shortcut(["ctrl", "k"]);
+  const newTeam = new Shortcut(["ctrl", "t"]);
+  const logout = new Shortcut(["shift", "ctrl", "q"]);
+
   return (
     <div class="flex h-full w-full">
       <Menu />
@@ -44,22 +52,30 @@ export default function Index() {
                 <DropdownMenuItem>
                   <i class="i-lucide:user mr-2" />
                   <span>Profile</span>
-                  <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+                  <DropdownMenuShortcut>
+                    <ShortcutLabel shortcut={profile} />
+                  </DropdownMenuShortcut>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
                   <i class="i-lucide:credit-card mr-2" />
                   <span>Billing</span>
-                  <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
+                  <DropdownMenuShortcut>
+                    <ShortcutLabel shortcut={billing} />
+                  </DropdownMenuShortcut>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
                   <i class="i-lucide:settings mr-2" />
                   <span>Settings</span>
-                  <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
+                  <DropdownMenuShortcut>
+                    <ShortcutLabel shortcut={settings} />
+                  </DropdownMenuShortcut>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
                   <i class="i-lucide:keyboard mr-2" />
                   <span>Keyboard shortcuts</span>
-                  <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
+                  <DropdownMenuShortcut>
+                    <ShortcutLabel shortcut={keyboardShortcuts} />
+                  </DropdownMenuShortcut>
                 </DropdownMenuItem>
               </DropdownMenuGroup>
               <DropdownMenuSeparator />
@@ -92,7 +108,9 @@ export default function Index() {
                 <DropdownMenuItem>
                   <i class="i-lucide:plus mr-2" />
                   <span>New Team</span>
-                  <DropdownMenuShortcut>⌘+T</DropdownMenuShortcut>
+                  <DropdownMenuShortcut>
+                    <ShortcutLabel shortcut={newTeam} />
+                  </DropdownMenuShortcut>
                 </DropdownMenuItem>
               </DropdownMenuGroup>
               <DropdownMenuSeparator />
@@ -133,7 +151,9 @@ export default function Index() {
               <DropdownMenuItem>
                 <i class="i-lucide:log-out mr-2" />
                 <span>Log out</span>
-                <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
+                <DropdownMenuShortcut>
+                  <ShortcutLabel shortcut={logout} />
+                </DropdownMenuShortcut>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

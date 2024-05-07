@@ -1,6 +1,9 @@
 import { createMemo, createSignal } from "solid-js";
 
-const translations = () => ({
+export const i18n = {
+  actions: {
+    print: t({ en: "Print", nl: "Printen" }),
+  },
   prod: {
     ean: t({ en: "EAN", nl: "EAN" }),
     product: t({ en: "Product", nl: "Artikel" }),
@@ -35,13 +38,14 @@ const translations = () => ({
     deliveries: t({ en: "Deliveries", nl: "Leveringen" }),
   },
   t: t,
-});
+};
 
-export let i18n = translations();
+// export let i18n = translations();
 
+type Translation = { en: string; nl: string };
 type Language = "nl" | "en";
 const [language, setLanguage] = createSignal<Language>("nl");
 
-function t({ en, nl }: { en: string; nl: string }) {
+function t({ en, nl }: Translation) {
   return () => (language() === "nl" ? nl : en);
 }

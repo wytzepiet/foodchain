@@ -4,12 +4,17 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { buttonVariants } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import UserSelect from "./userSelect";
 import menu from "~/main/menu";
 import { Image, ImageFallback, ImageRoot } from "@/components/ui/image";
+import { Shortcut, ShortcutLabel } from "./shortcut";
 
 const Menu = () => {
+  const shortcuts = {
+    quickNavigate: new Shortcut(["ctrl", "k"]),
+  };
+
   return (
     <div class="pt-4 px-3 h-full bg-card border-r flex flex-col">
       {/* <UserSelect /> */}
@@ -17,6 +22,10 @@ const Menu = () => {
         <Image src="/actifood.png" />
         <ImageFallback>VHC</ImageFallback>
       </ImageRoot>
+      <Button variant="outline" class="flex gap-3 pr-2 text-xs">
+        <span>Snel Navigeren</span>
+        <ShortcutLabel shortcut={shortcuts.quickNavigate} />
+      </Button>
       <Accordion collapsible class="px-1">
         {menu.map((item, i) => (
           <AccordionItem value={"menu-item-" + i}>
