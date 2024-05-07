@@ -1,0 +1,32 @@
+{
+  "name": "example-bare",
+  "type": "module",
+  "scripts": {
+    "dev": "vinxi dev",
+    "build": "vinxi build",
+    "start": "vinxi start"
+  },
+  "dependencies": {
+    "@ark-ui/solid": "^2.2.0",
+    "@faker-js/faker": "^8.4.1",
+    "@kobalte/core": "^0.12.6",
+    "@solidjs/router": "^0.13.3",
+    "@solidjs/start": "^1.0.0-rc.0",
+    "@tanstack/solid-table": "^8.16.1",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.1",
+    "lucide-solid": "^0.376.0",
+    "solid-js": "^1.8.16",
+    "tailwind-merge": "^2.3.0",
+    "tailwindcss-animate": "^1.0.7",
+    "vinxi": "^0.3.11"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.19",
+    "postcss": "^8.4.38",
+    "tailwindcss": "^3.4.3"
+  }
+}
