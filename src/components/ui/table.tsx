@@ -37,7 +37,7 @@ export const TableRow = (props: ComponentProps<"tr">) => {
   return (
     <tr
       class={cn(
-        "border-b transition-colors hover:bg-muted data-[state=selected]:bg-muted",
+        "border-b transition-colors hover:bg-muted-50 data-[state=selected]:bg-muted",
         local.class
       )}
       {...rest}
@@ -63,7 +63,7 @@ export const TableCell = (props: ComponentProps<"td">) => {
   return (
     <td
       class={cn(
-        "py-2 px-3 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]",
+        "py-1 px-3 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]",
         local.class
       )}
       {...rest}

@@ -1,3 +1,56 @@
+import { ar } from "@faker-js/faker";
+
+function opacities(color: string) {
+  const opacities = Array(10)
+    .fill(0)
+    .map((_, i) => i);
+  return {
+    DEFAULT: color,
+    ...Object.fromEntries(
+      opacities.map((i) => [
+        `${i}0`,
+        `color-mix(in srgb, ${color}, transparent ${100 - i * 10}%)`,
+      ])
+    ),
+  };
+}
+
+const colors = {
+  border: "var(--border)",
+  input: "var(--input)",
+  ring: "var(--ring)",
+  background: "var(--background)",
+  foreground: "var(--foreground)",
+  primary: {
+    ...opacities("var(--primary)"),
+    foreground: opacities("var(--primary-foreground)"),
+  },
+  secondary: {
+    ...opacities("var(--secondary)"),
+    foreground: opacities("var(--secondary-foreground)"),
+  },
+  destructive: {
+    ...opacities("var(--destructive)"),
+    foreground: opacities("var(--destructive-foreground)"),
+  },
+  muted: {
+    ...opacities("var(--muted)"),
+    foreground: opacities("var(--muted-foreground)"),
+  },
+  accent: {
+    ...opacities("var(--accent)"),
+    foreground: opacities("var(--accent-foreground)"),
+  },
+  popover: {
+    ...opacities("var(--popover)"),
+    foreground: opacities("var(--popover-foreground)"),
+  },
+  card: {
+    ...opacities("var(--card)"),
+    foreground: opacities("var(--card-foreground)"),
+  },
+};
+
 /** @type {import('tailwindcss').Config} */
 export default {
   mode: "jit",
@@ -18,39 +71,7 @@ export default {
     },
     extend: {
       colors: {
-        border: "var(--border)",
-        input: "var(--input)",
-        ring: "var(--ring)",
-        background: "var(--background)",
-        foreground: "var(--foreground)",
-        primary: {
-          DEFAULT: "var(--primary)",
-          foreground: "var(--primary-foreground)",
-        },
-        secondary: {
-          DEFAULT: "var(--secondary)",
-          foreground: "var(--secondary-foreground)",
-        },
-        destructive: {
-          DEFAULT: "var(--destructive)",
-          foreground: "var(--destructive-foreground)",
-        },
-        muted: {
-          DEFAULT: "var(--muted)",
-          foreground: "var(--muted-foreground)",
-        },
-        accent: {
-          DEFAULT: "var(--accent)",
-          foreground: "var(--accent-foreground)",
-        },
-        popover: {
-          DEFAULT: "var(--popover)",
-          foreground: "var(--popover-foreground)",
-        },
-        card: {
-          DEFAULT: "var(--card)",
-          foreground: "var(--card-foreground)",
-        },
+        ...colors,
       },
       borderRadius: {
         lg: "var(--radius)",

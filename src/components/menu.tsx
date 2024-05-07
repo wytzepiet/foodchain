@@ -13,7 +13,7 @@ const Menu = () => {
   return (
     <div class="pt-4 px-3 h-full bg-card border-r flex flex-col">
       {/* <UserSelect /> */}
-      <ImageRoot class="size-24 self-center">
+      <ImageRoot class="size-16 self-center rounded-md">
         <Image src="/actifood.png" />
         <ImageFallback>VHC</ImageFallback>
       </ImageRoot>

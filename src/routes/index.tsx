@@ -15,6 +15,7 @@ import {
   DropdownMenuSubContent,
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
+import { i18n } from "~/main/i18n";
 
 export default function Index() {
   return (
@@ -23,10 +24,6 @@ export default function Index() {
       <main class="pt-5 pb-5 px-10 grow flex flex-col">
         <div class="flex justify-between items-end pb-5">
           <h1 class="text-2xl font-semibold">Artikelen</h1>
-          <Button
-            variant="outline"
-            class="p-2 rounded-full h-[unset] text-muted-foreground"
-          ></Button>
 
           <DropdownMenu placement="bottom-start">
             <DropdownMenuTrigger
@@ -111,6 +108,27 @@ export default function Index() {
                 <i class="i-lucide:cloud mr-2" />
                 <span>API</span>
               </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuSub>
+                <DropdownMenuSubTrigger>
+                  <i class="i-lucide:user-plus mr-2" />
+                  <span>{i18n.t({ en: "Theme", nl: "Thema" })()}</span>
+                </DropdownMenuSubTrigger>
+                <DropdownMenuSubContent>
+                  <DropdownMenuItem
+                    onClick={() => document.body.classList.add("dark")}
+                  >
+                    <i class="i-lucide:mail mr-2" />
+                    <span>{i18n.t({ en: "Dark", nl: "Donker" })()}</span>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    onClick={() => document.body.classList.remove("dark")}
+                  >
+                    <i class="i-lucide:message-square mr-2" />
+                    <span>{i18n.t({ en: "Light", nl: "Licht" })()}</span>
+                  </DropdownMenuItem>
+                </DropdownMenuSubContent>
+              </DropdownMenuSub>
               <DropdownMenuSeparator />
               <DropdownMenuItem>
                 <i class="i-lucide:log-out mr-2" />

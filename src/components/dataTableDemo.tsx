@@ -289,7 +289,13 @@ const columns: ColumnDef<Task>[] = [
   {
     accessorKey: "code",
     header: (props) => <TableColumnHeader column={props.column} title="Task" />,
-    cell: (props) => <div class="w-[70px]">{props.row.getValue("code")}</div>,
+    cell: (props) => (
+      <div class="w-[70px]">
+        <Button variant="ghost" class="h-8 whitespace-nowrap">
+          {props.row.getValue("code")}
+        </Button>
+      </div>
+    ),
     enableSorting: false,
     enableHiding: false,
   },
@@ -301,7 +307,7 @@ const columns: ColumnDef<Task>[] = [
     cell: (props) => (
       <div class="flex space-x-2">
         <Badge variant="outline">{props.row.original.label}</Badge>
-        <span class="max-w-[250px] truncate font-medium">
+        <span class="max-w-[250px] truncate ">
           {props.row.getValue("title")}
         </span>
       </div>
