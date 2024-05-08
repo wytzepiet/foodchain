@@ -26,21 +26,24 @@ export class Shortcut {
   constructor(keyCombination: KeyCombination, callback?: () => any) {
     this.callback = callback;
 
-    const isMac = navigator.userAgent.includes("Mac OS X");
+    const isMac = () => {
+      if (typeof navigator === "undefined") return false;
+      return navigator.userAgent.toLowerCase().includes("mac");
+    };
 
     this.keyCombination = keyCombination.map((key, i) => {
       if (i === keyCombination.length - 1) return key.toUpperCase();
       if (key === "shift") return "⇧";
-      if (key === "alt") return isMac ? "⌥" : "Alt";
+      if (key === "alt") return isMac() ? "⌥" : "Alt";
       if (key === "strictCtrl") return "⌃";
-      return isMac ? "⌘" : "^";
+      return isMac() ? "⌘" : "^";
     });
 
     const modifierKeys = keyCombination.slice(0, -1);
 
     this.listener = (e: KeyboardEvent) => {
       for (const mod of modifierKeys) {
-        if (mod === "ctrl" && !(isMac ? e.metaKey : e.ctrlKey)) return;
+        if (mod === "ctrl" && !(isMac() ? e.metaKey : e.ctrlKey)) return;
         if (mod === "shift" && !e.shiftKey) return;
         if (mod === "alt" && !e.altKey) return;
         if (mod === "strictCtrl" && !e.ctrlKey) return;
