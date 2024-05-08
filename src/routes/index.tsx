@@ -16,15 +16,15 @@ import {
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
 import { i18n } from "~/main/i18n";
-import { Shortcut, ShortcutLabel } from "~/components/shortcut";
+import { addShortcut, ShortcutLabel } from "~/components/shortcut";
 
 export default function Index() {
-  const profile = new Shortcut(["shift", "ctrl", "p"]);
-  const billing = new Shortcut(["ctrl", "p"]);
-  const settings = new Shortcut(["ctrl", "s"]);
-  const keyboardShortcuts = new Shortcut(["ctrl", "k"]);
-  const newTeam = new Shortcut(["ctrl", "t"]);
-  const logout = new Shortcut(["shift", "ctrl", "q"]);
+  const profile = addShortcut(["shift", "ctrl", "p"]);
+  const billing = addShortcut(["ctrl", "b"], () => console.log("Billing"));
+  const settings = addShortcut(["ctrl", "s"]);
+  const keyboardShortcuts = addShortcut(["ctrl", "k"]);
+  const newTeam = addShortcut(["ctrl", "t"]);
+  const logout = addShortcut(["shift", "ctrl", "q"]);
 
   return (
     <div class="flex h-full w-full">

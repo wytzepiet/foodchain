@@ -63,7 +63,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Card } from "./ui/card";
-import { Shortcut, ShortcutLabel } from "./shortcut";
+import { addShortcut, ShortcutLabel } from "./shortcut";
 
 const makeData = (len: number) =>
   Array.from({ length: len }, (_, i) => i).map(
@@ -535,6 +535,9 @@ const DataTableDemo = () => {
     getSortedRowModel: getSortedRowModel(),
   });
 
+  const print = addShortcut(["ctrl", "p"], () => {
+    console.log("print");
+  });
   return (
     <div class="w-full h-0 grow space-y-2.5 flex flex-col">
       <div class="flex items-center justify-between gap-2">
@@ -677,7 +680,7 @@ const DataTableDemo = () => {
                 <i class="i-lucide:user mr-2" />
                 <span>{i18n.actions.print()}</span>
                 <DropdownMenuShortcut>
-                  <ShortcutLabel shortcut={new Shortcut(["ctrl", "k"])} />
+                  <ShortcutLabel shortcut={print} />
                 </DropdownMenuShortcut>
               </DropdownMenuItem>
             </DropdownMenuContent>
