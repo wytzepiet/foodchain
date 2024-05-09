@@ -1,4 +1,4 @@
-import { cn } from "@/components/ui/libs/cn";
+import { cn } from "~/lib/components/ui/libs/cn";
 import type { SplitterResizeTriggerProps } from "@ark-ui/solid";
 import { Splitter as SplitterPrimitive } from "@ark-ui/solid";
 import type { VoidProps } from "solid-js";

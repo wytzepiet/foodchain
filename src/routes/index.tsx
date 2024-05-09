@@ -1,7 +1,7 @@
-import Menu from "../components/menu";
-import DataTableDemo from "../components/dataTableDemo";
+import Menu from "../lib/components/menu";
+import DataTableDemo from "../lib/components/dataTableDemo";
 import { icons } from "lucide-solid";
-import { Button } from "~/components/ui/button";
+import { Button } from "~/lib/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,15 +14,17 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuSubContent,
   DropdownMenuTrigger,
-} from "~/components/ui/dropdown-menu";
+  DropdownMenuCheckboxItem,
+} from "~/lib/components/ui/dropdown-menu";
 import { i18n } from "~/main/i18n";
-import { addShortcut, ShortcutLabel } from "~/components/shortcut";
+import ShortcutLabel from "~/lib/components/shortcutLabel";
+import addShortcut from "~/lib/utilities/shortcut";
+import { darkMode, setDarkMode } from "~/lib/utilities/theme";
 
 export default function Index() {
   const profile = addShortcut(["shift", "ctrl", "p"]);
   const billing = addShortcut(["ctrl", "b"], () => console.log("Billing"));
   const settings = addShortcut(["ctrl", "s"]);
-  const keyboardShortcuts = addShortcut(["ctrl", "k"]);
   const newTeam = addShortcut(["ctrl", "t"]);
   const logout = addShortcut(["shift", "ctrl", "q"]);
 
@@ -53,28 +55,21 @@ export default function Index() {
                   <i class="i-lucide:user mr-2" />
                   <span>Profile</span>
                   <DropdownMenuShortcut>
-                    <ShortcutLabel shortcut={profile} />
+                    <ShortcutLabel for={profile} />
                   </DropdownMenuShortcut>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
                   <i class="i-lucide:credit-card mr-2" />
                   <span>Billing</span>
                   <DropdownMenuShortcut>
-                    <ShortcutLabel shortcut={billing} />
+                    <ShortcutLabel for={billing} />
                   </DropdownMenuShortcut>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
                   <i class="i-lucide:settings mr-2" />
                   <span>Settings</span>
                   <DropdownMenuShortcut>
-                    <ShortcutLabel shortcut={settings} />
-                  </DropdownMenuShortcut>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <i class="i-lucide:keyboard mr-2" />
-                  <span>Keyboard shortcuts</span>
-                  <DropdownMenuShortcut>
-                    <ShortcutLabel shortcut={keyboardShortcuts} />
+                    <ShortcutLabel for={settings} />
                   </DropdownMenuShortcut>
                 </DropdownMenuItem>
               </DropdownMenuGroup>
@@ -105,11 +100,11 @@ export default function Index() {
                     </DropdownMenuItem>
                   </DropdownMenuSubContent>
                 </DropdownMenuSub>
-                <DropdownMenuItem>
+                <DropdownMenuItem onclick={newTeam.callback}>
                   <i class="i-lucide:plus mr-2" />
                   <span>New Team</span>
                   <DropdownMenuShortcut>
-                    <ShortcutLabel shortcut={newTeam} />
+                    <ShortcutLabel for={newTeam} />
                   </DropdownMenuShortcut>
                 </DropdownMenuItem>
               </DropdownMenuGroup>
@@ -133,18 +128,18 @@ export default function Index() {
                   <span>{i18n.t({ en: "Theme", nl: "Thema" })()}</span>
                 </DropdownMenuSubTrigger>
                 <DropdownMenuSubContent>
-                  <DropdownMenuItem
-                    onClick={() => document.body.classList.add("dark")}
+                  <DropdownMenuCheckboxItem
+                    checked={darkMode()}
+                    onClick={() => setDarkMode(true)}
                   >
-                    <i class="i-lucide:mail mr-2" />
-                    <span>{i18n.t({ en: "Dark", nl: "Donker" })()}</span>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem
-                    onClick={() => document.body.classList.remove("dark")}
+                    {i18n.t({ en: "Dark", nl: "Donker" })()}
+                  </DropdownMenuCheckboxItem>
+                  <DropdownMenuCheckboxItem
+                    checked={!darkMode()}
+                    onClick={() => setDarkMode(false)}
                   >
-                    <i class="i-lucide:message-square mr-2" />
-                    <span>{i18n.t({ en: "Light", nl: "Licht" })()}</span>
-                  </DropdownMenuItem>
+                    {i18n.t({ en: "Light", nl: "Licht" })()}
+                  </DropdownMenuCheckboxItem>
                 </DropdownMenuSubContent>
               </DropdownMenuSub>
               <DropdownMenuSeparator />
@@ -152,7 +147,7 @@ export default function Index() {
                 <i class="i-lucide:log-out mr-2" />
                 <span>Log out</span>
                 <DropdownMenuShortcut>
-                  <ShortcutLabel shortcut={logout} />
+                  <ShortcutLabel for={logout} />
                 </DropdownMenuShortcut>
               </DropdownMenuItem>
             </DropdownMenuContent>

@@ -1,4 +1,4 @@
-import { cn } from "@/components/ui/libs/cn";
+import { cn } from "~/lib/components/ui/libs/cn";
 import { DropdownMenu as DropdownMenuPrimitive } from "@kobalte/core";
 import type { ComponentProps, ParentProps, VoidProps } from "solid-js";
 import { mergeProps, splitProps } from "solid-js";
@@ -8,16 +8,19 @@ export const DropdownMenuGroup = DropdownMenuPrimitive.Group;
 export const DropdownMenuSub = DropdownMenuPrimitive.Sub;
 export const DropdownMenuRadioGroup = DropdownMenuPrimitive.RadioGroup;
 
-export const DropdownMenu = (props: DropdownMenuPrimitive.DropdownMenuRootProps) => {
-  const merge = mergeProps<ParentProps<DropdownMenuPrimitive.DropdownMenuRootProps[]>>(
-    { gutter: 4 },
-    props
-  );
+export const DropdownMenu = (
+  props: DropdownMenuPrimitive.DropdownMenuRootProps
+) => {
+  const merge = mergeProps<
+    ParentProps<DropdownMenuPrimitive.DropdownMenuRootProps[]>
+  >({ gutter: 4 }, props);
 
   return <DropdownMenuPrimitive.Root {...merge} />;
 };
 
-export const DropdownMenuContent = (props: DropdownMenuPrimitive.DropdownMenuContentProps) => {
+export const DropdownMenuContent = (
+  props: DropdownMenuPrimitive.DropdownMenuContentProps
+) => {
   const [local, rest] = splitProps(props, ["class"]);
 
   return (
@@ -66,7 +69,9 @@ export const DropdownMenuGroupLabel = (
   );
 };
 
-export const DropdownMenuItemLabel = (props: DropdownMenuPrimitive.DropdownMenuItemLabelProps) => {
+export const DropdownMenuItemLabel = (
+  props: DropdownMenuPrimitive.DropdownMenuItemLabelProps
+) => {
   const [local, rest] = splitProps(props, ["class"]);
 
   return (
@@ -94,7 +99,12 @@ export const DropdownMenuSeparator = (
 export const DropdownMenuShortcut = (props: ComponentProps<"span">) => {
   const [local, rest] = splitProps(props, ["class"]);
 
-  return <span class={cn("ml-auto text-xs tracking-widest opacity-60", local.class)} {...rest} />;
+  return (
+    <span
+      class={cn("ml-auto text-xs tracking-widest opacity-60", local.class)}
+      {...rest}
+    />
+  );
 };
 
 export const DropdownMenuSubTrigger = (
@@ -163,7 +173,11 @@ export const DropdownMenuCheckboxItem = (
       {...rest}
     >
       <DropdownMenuPrimitive.ItemIndicator class="absolute left-2 inline-flex h-4 w-4 items-center justify-center">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-4 w-4">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          class="h-4 w-4"
+        >
           <path
             fill="none"
             stroke="currentColor"
@@ -179,7 +193,9 @@ export const DropdownMenuCheckboxItem = (
   );
 };
 
-export const DropdownMenuRadioItem = (props: DropdownMenuPrimitive.DropdownMenuRadioItemProps) => {
+export const DropdownMenuRadioItem = (
+  props: DropdownMenuPrimitive.DropdownMenuRadioItemProps
+) => {
   const [local, rest] = splitProps(props, ["class", "children"]);
 
   return (
@@ -191,8 +207,17 @@ export const DropdownMenuRadioItem = (props: DropdownMenuPrimitive.DropdownMenuR
       {...rest}
     >
       <DropdownMenuPrimitive.ItemIndicator class="absolute left-2 inline-flex h-4 w-4 items-center justify-center">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-2 w-2">
-          <g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          class="h-2 w-2"
+        >
+          <g
+            fill="none"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+          >
             <path d="M0 0h24v24H0z" />
             <path
               fill="currentColor"

@@ -1,8 +1,15 @@
 import { createMemo, createSignal } from "solid-js";
 
 export const i18n = {
-  actions: {
+  action: {
     print: t({ en: "Print", nl: "Printen" }),
+    export: t({ en: "Export", nl: "Exporteren" }),
+  },
+  message: {
+    noResultsFound: t({
+      en: "No results found",
+      nl: "Geen resultaten gevonden",
+    }),
   },
   prod: {
     ean: t({ en: "EAN", nl: "EAN" }),

@@ -1,4 +1,4 @@
-import { cn } from "~/components/ui/libs/cn";
+import { cn } from "~/lib/components/ui/libs/cn";
 import { As, Select as SelectPrimitive } from "@kobalte/core";
 import type { VoidProps } from "solid-js";
 import { splitProps } from "solid-js";

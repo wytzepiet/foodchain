@@ -16,19 +16,19 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
 } from "@tanstack/solid-table";
-import type { VoidProps } from "solid-js";
+import type { JSX, VoidProps } from "solid-js";
 import { For, Match, Show, Switch, createSignal, splitProps } from "solid-js";
 import { z } from "zod";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Checkbox, CheckboxControl } from "@/components/ui/checkbox";
+import { Badge } from "~/lib/components/ui/badge";
+import { Button } from "~/lib/components/ui/button";
+import { Checkbox, CheckboxControl } from "~/lib/components/ui/checkbox";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from "~/lib/components/ui/select";
 import {
   Table,
   TableBody,
@@ -36,8 +36,8 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import { TextField, TextFieldInput } from "@/components/ui/textfield";
+} from "~/lib/components/ui/table";
+import { TextField, TextFieldInput } from "~/lib/components/ui/textfield";
 import { icons } from "lucide-solid";
 
 type Task = {
@@ -61,9 +61,16 @@ import {
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from "~/lib/components/ui/dropdown-menu";
 import { Card } from "./ui/card";
-import { addShortcut, ShortcutLabel } from "./shortcut";
+import ShortcutLabel from "./shortcutLabel";
+import addShortcut from "../utilities/shortcut";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "~/lib/components/ui/tooltip";
+import type { TooltipTriggerProps } from "@kobalte/core/dist/types/tooltip";
 
 const makeData = (len: number) =>
   Array.from({ length: len }, (_, i) => i).map(
@@ -535,14 +542,25 @@ const DataTableDemo = () => {
     getSortedRowModel: getSortedRowModel(),
   });
 
+  let searchFieldRef: HTMLInputElement | (() => void) | undefined;
+
   const print = addShortcut(["ctrl", "p"], () => {
     console.log("print");
   });
+  const addProduct = addShortcut(["ctrl", "n"], () => {});
+
+  addShortcut(["/"], () => {
+    if (typeof searchFieldRef === "function") return;
+    searchFieldRef?.focus();
+  });
+
   return (
     <div class="w-full h-0 grow space-y-2.5 flex flex-col">
       <div class="flex items-center justify-between gap-2">
         <TextField>
           <TextFieldInput
+            ref={searchFieldRef}
+            autofocus
             type="text"
             placeholder="Zoek een artikel..."
             class="bg-card w-80"
@@ -662,10 +680,20 @@ const DataTableDemo = () => {
               </DropdownMenuGroup>
             </DropdownMenuContent>
           </DropdownMenu>
-          <Button onclick={() => {}}>
-            <icons.CirclePlus class="h-4" />
-            {i18n.t({ en: "Add product", nl: "Artikel Toevoegen" })()}
-          </Button>
+
+          <Tooltip>
+            <TooltipTrigger
+              as={(props: TooltipTriggerProps) => (
+                <Button shortcut={addProduct} {...props}>
+                  <icons.CirclePlus class="h-4" />
+                  {i18n.t({ en: "Add product", nl: "Artikel Toevoegen" })()}
+                </Button>
+              )}
+            />
+            <TooltipContent>
+              <ShortcutLabel for={addProduct} />
+            </TooltipContent>
+          </Tooltip>
 
           <DropdownMenu placement="bottom-start">
             <DropdownMenuTrigger
@@ -677,12 +705,21 @@ const DataTableDemo = () => {
             />
             <DropdownMenuContent class="w-56">
               <DropdownMenuItem>
-                <i class="i-lucide:user mr-2" />
-                <span>{i18n.actions.print()}</span>
+                {i18n.action.print()}
                 <DropdownMenuShortcut>
-                  <ShortcutLabel shortcut={print} />
+                  <ShortcutLabel for={print} />
                 </DropdownMenuShortcut>
               </DropdownMenuItem>
+              <DropdownMenuSub>
+                <DropdownMenuSubTrigger>
+                  {i18n.action.export()}
+                </DropdownMenuSubTrigger>
+                <DropdownMenuSubContent>
+                  <DropdownMenuItem>PDF</DropdownMenuItem>
+                  <DropdownMenuItem>Excel</DropdownMenuItem>
+                  <DropdownMenuItem>CSV</DropdownMenuItem>
+                </DropdownMenuSubContent>
+              </DropdownMenuSub>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>

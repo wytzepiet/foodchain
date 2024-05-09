@@ -1,4 +1,4 @@
-import { cn } from "@/components/ui/libs/cn";
+import { cn } from "~/lib/components/ui/libs/cn";
 import { TextField as TextFieldPrimitive } from "@kobalte/core";
 import { cva } from "class-variance-authority";
 import type { VoidProps } from "solid-js";
@@ -6,7 +6,9 @@ import { splitProps } from "solid-js";
 
 export const TextField = (props: TextFieldPrimitive.TextFieldRootProps) => {
   const [local, rest] = splitProps(props, ["class"]);
-  return <TextFieldPrimitive.Root class={cn("space-y-1", local.class)} {...rest} />;
+  return (
+    <TextFieldPrimitive.Root class={cn("space-y-1", local.class)} {...rest} />
+  );
 };
 
 const textfieldLabel = cva(
@@ -14,27 +16,36 @@ const textfieldLabel = cva(
   {
     variants: {
       label: {
-        true: "data-[invalid]:text-destructive"
+        true: "data-[invalid]:text-destructive",
       },
       error: {
-        true: "text-destructive"
+        true: "text-destructive",
       },
       description: {
-        true: "font-normal text-muted-foreground"
-      }
+        true: "font-normal text-muted-foreground",
+      },
     },
     defaultVariants: {
-      label: true
-    }
+      label: true,
+    },
   }
 );
 
-export const TextFieldLabel = (props: TextFieldPrimitive.TextFieldLabelProps) => {
+export const TextFieldLabel = (
+  props: TextFieldPrimitive.TextFieldLabelProps
+) => {
   const [local, rest] = splitProps(props, ["class"]);
-  return <TextFieldPrimitive.Label class={cn(textfieldLabel(), local.class)} {...rest} />;
+  return (
+    <TextFieldPrimitive.Label
+      class={cn(textfieldLabel(), local.class)}
+      {...rest}
+    />
+  );
 };
 
-export const TextFieldErrorMessage = (props: TextFieldPrimitive.TextFieldErrorMessageProps) => {
+export const TextFieldErrorMessage = (
+  props: TextFieldPrimitive.TextFieldErrorMessageProps
+) => {
   const [local, rest] = splitProps(props, ["class"]);
   return (
     <TextFieldPrimitive.ErrorMessage
@@ -44,7 +55,9 @@ export const TextFieldErrorMessage = (props: TextFieldPrimitive.TextFieldErrorMe
   );
 };
 
-export const TextFieldDescription = (props: TextFieldPrimitive.TextFieldDescriptionProps) => {
+export const TextFieldDescription = (
+  props: TextFieldPrimitive.TextFieldDescriptionProps
+) => {
   const [local, rest] = splitProps(props, ["class"]);
   return (
     <TextFieldPrimitive.Description
@@ -54,7 +67,9 @@ export const TextFieldDescription = (props: TextFieldPrimitive.TextFieldDescript
   );
 };
 
-export const TextFieldInput = (props: VoidProps<TextFieldPrimitive.TextFieldInputProps>) => {
+export const TextFieldInput = (
+  props: VoidProps<TextFieldPrimitive.TextFieldInputProps>
+) => {
   const [local, rest] = splitProps(props, ["class"]);
   return (
     <TextFieldPrimitive.Input

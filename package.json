@@ -15,6 +15,7 @@
     "@tanstack/solid-table": "^8.16.1",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+    "cmdk-solid": "^1.0.1",
     "lucide-solid": "^0.376.0",
     "solid-js": "^1.8.16",
     "tailwind-merge": "^2.3.0",

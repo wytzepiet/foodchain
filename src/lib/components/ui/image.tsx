@@ -1,4 +1,4 @@
-import { cn } from "@/components/ui/libs/cn";
+import { cn } from "~/lib/components/ui/libs/cn";
 import { Image as ImagePrimitive } from "@kobalte/core";
 import type { PolymorphicProps } from "@kobalte/core";
 import { type ValidComponent, splitProps } from "solid-js";

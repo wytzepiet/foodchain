@@ -1,4 +1,4 @@
-import { cn } from "~/components/ui/libs/cn";
+import { cn } from "~/lib/components/ui/libs/cn";
 import { Accordion as AccordionPrimitive } from "@kobalte/core";
 import { splitProps } from "solid-js";
 

@@ -1,4 +1,4 @@
-import { cn } from "@/components/ui/libs/cn";
+import { cn } from "~/lib/components/ui/libs/cn";
 import { Checkbox as CheckboxPrimitive } from "@kobalte/core";
 import { splitProps } from "solid-js";
 
@@ -7,7 +7,9 @@ export const Checkbox = CheckboxPrimitive.Root;
 export const CheckboxErrorMessage = CheckboxPrimitive.ErrorMessage;
 export const CheckboxDescription = CheckboxPrimitive.Description;
 
-export const CheckboxControl = (props: CheckboxPrimitive.CheckboxControlProps) => {
+export const CheckboxControl = (
+  props: CheckboxPrimitive.CheckboxControlProps
+) => {
   const [local, rest] = splitProps(props, ["class", "children"]);
 
   return (
@@ -26,7 +28,11 @@ export const CheckboxControl = (props: CheckboxPrimitive.CheckboxControlProps) =
         {...rest}
       >
         <CheckboxPrimitive.Indicator class="flex items-center justify-center text-current">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-4 w-4">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            class="h-4 w-4"
+          >
             <path
               fill="none"
               stroke="currentColor"
