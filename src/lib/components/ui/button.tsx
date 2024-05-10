@@ -3,7 +3,6 @@ import { Button as ButtonPrimitive } from "@kobalte/core";
 import type { VariantProps } from "class-variance-authority";
 import { cva } from "class-variance-authority";
 import { splitProps } from "solid-js";
-import { Shortcut } from "../shortcutLabel";
 
 export const buttonVariants = cva(
   "inline-flex items-center justify-center rounded-md text-sm font-medium transition-[color,background-color,box-shadow] focus-visible:outline-none focus-visible:ring-[1.5px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50",
@@ -36,15 +35,9 @@ export const buttonVariants = cva(
 );
 
 export const Button = (
-  props: ButtonPrimitive.ButtonRootProps &
-    VariantProps<typeof buttonVariants> & { shortcut?: Shortcut }
+  props: ButtonPrimitive.ButtonRootProps & VariantProps<typeof buttonVariants>
 ) => {
-  const [local, rest] = splitProps(props, [
-    "class",
-    "variant",
-    "size",
-    "shortcut",
-  ]);
+  const [local, rest] = splitProps(props, ["class", "variant", "size"]);
 
   return (
     <ButtonPrimitive.Root

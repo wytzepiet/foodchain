@@ -16,13 +16,14 @@ import { Button, buttonVariants } from "~/lib/components/ui/button";
 import menu from "~/main/menu";
 import { Image, ImageFallback, ImageRoot } from "~/lib/components/ui/image";
 import ShortcutLabel from "./shortcutLabel";
-import addShortcut from "~/lib/utilities/shortcut";
+import createShortcut from "~/lib/utilities/shortcut";
 import { createSignal } from "solid-js";
 import { i18n } from "~/main/i18n";
+import { icons } from "lucide-solid";
 
 const Menu = () => {
   const [open, setOpen] = createSignal(false);
-  const quickNavigation = addShortcut(["ctrl", "k"], () => {
+  const quickNavigation = createShortcut(["ctrl", "k"], () => {
     setOpen((open) => !open);
   });
 
@@ -34,9 +35,10 @@ const Menu = () => {
             <Image src="/actifood.png" />
             <ImageFallback>VHC</ImageFallback>
           </ImageRoot>
+
           <Accordion collapsible class="px-1">
             {menu.map((item, i) => (
-              <AccordionItem value={"menu-item-" + i}>
+              <AccordionItem value={"menu-item-" + (i + 1)}>
                 <AccordionTrigger>
                   <a
                     class="!justify-start w-full flex gap-3 py-2"
@@ -48,7 +50,7 @@ const Menu = () => {
                 </AccordionTrigger>
                 <AccordionContent>
                   <div class="flex flex-col gap-1 pl-4">
-                    {item.items.map((subItem) => (
+                    {item.items?.map((subItem) => (
                       <a
                         class={`!justify-start ${buttonVariants({
                           variant: "ghost",
@@ -86,7 +88,7 @@ const Menu = () => {
                 </div>
               }
             >
-              {item.items.map((subItem) => (
+              {item.items?.map((subItem) => (
                 <CommandItem>{subItem.title()}</CommandItem>
               ))}
             </CommandGroup>

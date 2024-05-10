@@ -16,7 +16,7 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
 } from "@tanstack/solid-table";
-import type { JSX, VoidProps } from "solid-js";
+import type { VoidProps } from "solid-js";
 import { For, Match, Show, Switch, createSignal, splitProps } from "solid-js";
 import { z } from "zod";
 import { Badge } from "~/lib/components/ui/badge";
@@ -56,7 +56,6 @@ import {
   DropdownMenuGroupLabel,
   DropdownMenuItem,
   DropdownMenuSeparator,
-  DropdownMenuShortcut,
   DropdownMenuSub,
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
@@ -64,7 +63,7 @@ import {
 } from "~/lib/components/ui/dropdown-menu";
 import { Card } from "./ui/card";
 import ShortcutLabel from "./shortcutLabel";
-import addShortcut from "../utilities/shortcut";
+import createShortcut from "../utilities/shortcut";
 import {
   Tooltip,
   TooltipContent,
@@ -544,12 +543,14 @@ const DataTableDemo = () => {
 
   let searchFieldRef: HTMLInputElement | (() => void) | undefined;
 
-  const print = addShortcut(["ctrl", "p"], () => {
+  const print = createShortcut(["ctrl", "p"], () => {
     console.log("print");
   });
-  const addProduct = addShortcut(["ctrl", "n"], () => {});
+  const addProduct = createShortcut(["ctrl", "j"], () => {
+    console.log("add product");
+  });
 
-  addShortcut(["/"], () => {
+  createShortcut(["ctrl", "l"], () => {
     if (typeof searchFieldRef === "function") return;
     searchFieldRef?.focus();
   });
@@ -684,7 +685,7 @@ const DataTableDemo = () => {
           <Tooltip>
             <TooltipTrigger
               as={(props: TooltipTriggerProps) => (
-                <Button shortcut={addProduct} {...props}>
+                <Button {...props}>
                   <icons.CirclePlus class="h-4" />
                   {i18n.t({ en: "Add product", nl: "Artikel Toevoegen" })()}
                 </Button>
@@ -706,9 +707,7 @@ const DataTableDemo = () => {
             <DropdownMenuContent class="w-56">
               <DropdownMenuItem>
                 {i18n.action.print()}
-                <DropdownMenuShortcut>
-                  <ShortcutLabel for={print} />
-                </DropdownMenuShortcut>
+                <ShortcutLabel for={print} />
               </DropdownMenuItem>
               <DropdownMenuSub>
                 <DropdownMenuSubTrigger>
@@ -726,11 +725,16 @@ const DataTableDemo = () => {
       </div>
       <Card class="h-full overflow-y-scroll relative">
         <Table>
-          <TableHeader class="sticky top-0 z-10 bg-card">
+          <TableHeader class="sticky top-0 z-10">
             {/* <div class="absolute inset-0 w-full bg-red-500"></div> */}
+
+            <TableRow class="block absolute inset-0 bg-card border-b">
+              {" "}
+            </TableRow>
+
             <For each={table.getHeaderGroups()}>
-              {(headerGroup) => (
-                <TableRow class="relative z-[5]">
+              {(headerGroup, i) => (
+                <TableRow class="relative z-[5] border-none">
                   <For each={headerGroup.headers}>
                     {(header) => {
                       return (

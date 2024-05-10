@@ -1,17 +1,17 @@
-import { ar } from "@faker-js/faker";
-
 function opacities(color: string) {
-  const opacities = Array(10)
+  const opacities = Array(20)
     .fill(0)
-    .map((_, i) => i);
+    .map((_, i) => i * 5);
   return {
     DEFAULT: color,
-    ...Object.fromEntries(
-      opacities.map((i) => [
-        `${i}0`,
-        `color-mix(in srgb, ${color}, transparent ${100 - i * 10}%)`,
-      ])
-    ),
+    opacity: {
+      ...Object.fromEntries(
+        opacities.map((i) => [
+          i.toString(),
+          `color-mix(in srgb, ${color}, transparent ${100 - i}%)`,
+        ])
+      ),
+    },
   };
 }
 

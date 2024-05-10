@@ -1,0 +1,16 @@
+[
+  {
+    "schemaName": "public",
+    "tableName": "products",
+    "predictions": [
+      {
+        "input": "public products code",
+        "column": "code",
+        "shape": "COMMERCE_PRODUCT",
+        "confidence": 0.4417756795883179,
+        "context": "GENERAL",
+        "confidenceContext": 0
+      }
+    ]
+  }
+]

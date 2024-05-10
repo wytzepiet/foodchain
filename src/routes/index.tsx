@@ -9,7 +9,6 @@ import {
   DropdownMenuGroupLabel,
   DropdownMenuItem,
   DropdownMenuSeparator,
-  DropdownMenuShortcut,
   DropdownMenuSub,
   DropdownMenuSubTrigger,
   DropdownMenuSubContent,
@@ -18,15 +17,15 @@ import {
 } from "~/lib/components/ui/dropdown-menu";
 import { i18n } from "~/main/i18n";
 import ShortcutLabel from "~/lib/components/shortcutLabel";
-import addShortcut from "~/lib/utilities/shortcut";
+import createShortcut from "~/lib/utilities/shortcut";
 import { darkMode, setDarkMode } from "~/lib/utilities/theme";
 
 export default function Index() {
-  const profile = addShortcut(["shift", "ctrl", "p"]);
-  const billing = addShortcut(["ctrl", "b"], () => console.log("Billing"));
-  const settings = addShortcut(["ctrl", "s"]);
-  const newTeam = addShortcut(["ctrl", "t"]);
-  const logout = addShortcut(["shift", "ctrl", "q"]);
+  const profile = createShortcut(["shift", "ctrl", "p"]);
+  const billing = createShortcut(["ctrl", "b"], () => console.log("Billing"));
+  const settings = createShortcut(["ctrl", "s"]);
+  const newTeam = createShortcut(["ctrl", "t"]);
+  const logout = createShortcut(["shift", "ctrl", "q"]);
 
   return (
     <div class="flex h-full w-full">
@@ -54,23 +53,17 @@ export default function Index() {
                 <DropdownMenuItem>
                   <i class="i-lucide:user mr-2" />
                   <span>Profile</span>
-                  <DropdownMenuShortcut>
-                    <ShortcutLabel for={profile} />
-                  </DropdownMenuShortcut>
+                  <ShortcutLabel for={profile} />
                 </DropdownMenuItem>
                 <DropdownMenuItem>
                   <i class="i-lucide:credit-card mr-2" />
                   <span>Billing</span>
-                  <DropdownMenuShortcut>
-                    <ShortcutLabel for={billing} />
-                  </DropdownMenuShortcut>
+                  <ShortcutLabel for={billing} />
                 </DropdownMenuItem>
                 <DropdownMenuItem>
                   <i class="i-lucide:settings mr-2" />
                   <span>Settings</span>
-                  <DropdownMenuShortcut>
-                    <ShortcutLabel for={settings} />
-                  </DropdownMenuShortcut>
+                  <ShortcutLabel for={settings} />
                 </DropdownMenuItem>
               </DropdownMenuGroup>
               <DropdownMenuSeparator />
@@ -103,9 +96,7 @@ export default function Index() {
                 <DropdownMenuItem onclick={newTeam.callback}>
                   <i class="i-lucide:plus mr-2" />
                   <span>New Team</span>
-                  <DropdownMenuShortcut>
-                    <ShortcutLabel for={newTeam} />
-                  </DropdownMenuShortcut>
+                  <ShortcutLabel for={newTeam} />
                 </DropdownMenuItem>
               </DropdownMenuGroup>
               <DropdownMenuSeparator />
@@ -146,9 +137,7 @@ export default function Index() {
               <DropdownMenuItem>
                 <i class="i-lucide:log-out mr-2" />
                 <span>Log out</span>
-                <DropdownMenuShortcut>
-                  <ShortcutLabel for={logout} />
-                </DropdownMenuShortcut>
+                <ShortcutLabel for={logout} />
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

@@ -4,6 +4,11 @@ import { JSX } from "solid-js";
 
 const menu: MenuItem[] = [
   {
+    title: () => "Dashboard",
+    href: "/",
+    icon: icons.LayoutDashboard,
+  },
+  {
     title: i18n.prod.products,
     href: "/",
     icon: icons.Carrot,
@@ -17,7 +22,6 @@ const menu: MenuItem[] = [
     title: i18n.stock.management,
     href: "#",
     icon: icons.Box,
-    items: [],
   },
   {
     title: i18n.cust.customers,
@@ -63,7 +67,7 @@ type MenuItem = {
   title: () => string;
   href: string;
   icon: (props: LucideProps) => JSX.Element;
-  items: {
+  items?: {
     title: () => string;
     href: string;
   }[];
