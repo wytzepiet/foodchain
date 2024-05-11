@@ -7,9 +7,7 @@ import { Show, splitProps } from "solid-js";
 export const Splitter = SplitterPrimitive.Root;
 export const SplitterPanel = SplitterPrimitive.Panel;
 
-export const SplitterResizeTrigger = (
-  props: VoidProps<SplitterResizeTriggerProps & { withHandle?: boolean }>
-) => {
+export const SplitterResizeTrigger = (props: VoidProps<SplitterResizeTriggerProps & { withHandle?: boolean }>) => {
   const [local, rest] = splitProps(props, ["class", "withHandle"]);
 
   return (
@@ -22,11 +20,7 @@ export const SplitterResizeTrigger = (
     >
       <Show when={local.withHandle}>
         <div class="z-10 flex h-4 w-3 items-center justify-center rounded-sm border bg-border">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-2.5 w-2.5"
-            viewBox="0 0 15 15"
-          >
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-2.5 w-2.5" viewBox="0 0 15 15">
             <path
               fill="currentColor"
               fill-rule="evenodd"

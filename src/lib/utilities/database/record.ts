@@ -1,12 +1,7 @@
-import { createClient } from "@supabase/supabase-js";
 import { createResource, ResourceReturn } from "solid-js";
 import { Database, Tables } from "./database.types";
+import { supabase } from "./client";
 
-const supabaseKey = process.env.SUPABASE_KEY;
-const supabaseUrl = process.env.SUPABASE_URL;
-if (!supabaseKey || !supabaseUrl) throw new Error("Supabase key and url are required");
-
-const supabase = createClient(supabaseUrl, supabaseKey);
 
 type Resources<T> = { [P in keyof T]?: ResourceReturn<T[P] | null> };
 

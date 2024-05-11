@@ -1,12 +1,15 @@
 import DatabaseRecord from "~/lib/utilities/database/record";
 
-class Product extends DatabaseRecord<"products"> {
+const table = "products";
+
+export default class Product extends DatabaseRecord<typeof table> {
   constructor(id: string) {
-    super(id, "products");
+    super(id, table);
   }
 
   setprice(price: number) {
     this.setValue("price", price);
+    this.value("price")
   }
 }
 

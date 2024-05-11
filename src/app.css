@@ -43,7 +43,7 @@
     --accent-foreground: var(--foreground);
     --destructive: hsl(0, 62.8%, 30.6%);
     --destructive-foreground: var(--foreground);
-    --border: hsl(215, 27.9%, 18%);
+    --border: hsl(215, 27.9%, 17%);
     --input: var(--border);
     --ring: var(--primary);
   }

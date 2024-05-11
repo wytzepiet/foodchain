@@ -3017,6 +3017,64 @@
       ],
       "uniqueConstraints": []
     },
+    "supabase_migrations_schema_migrations": {
+      "id": "supabase_migrations.schema_migrations",
+      "schemaName": "supabase_migrations",
+      "tableName": "schema_migrations",
+      "fields": [
+        {
+          "id": "supabase_migrations.schema_migrations.version",
+          "name": "version",
+          "columnName": "version",
+          "type": "text",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": true,
+          "maxLength": null
+        },
+        {
+          "id": "supabase_migrations.schema_migrations.statements",
+          "name": "statements",
+          "columnName": "statements",
+          "type": "text[]",
+          "isRequired": false,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "id": "supabase_migrations.schema_migrations.name",
+          "name": "name",
+          "columnName": "name",
+          "type": "text",
+          "isRequired": false,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": null
+        }
+      ],
+      "uniqueConstraints": [
+        {
+          "name": "schema_migrations_pkey",
+          "fields": [
+            "version"
+          ],
+          "nullNotDistinct": false
+        }
+      ]
+    },
     "secrets": {
       "id": "vault.secrets",
       "schemaName": "vault",

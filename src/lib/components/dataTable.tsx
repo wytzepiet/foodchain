@@ -11,7 +11,7 @@ import {
   getSortedRowModel,
 } from "@tanstack/solid-table";
 import type { VoidProps } from "solid-js";
-import { For, Match, Show, Switch, createSignal, splitProps } from "solid-js";
+import { For, Show, createSignal, splitProps } from "solid-js";
 import { z } from "zod";
 import { Badge } from "~/lib/components/ui/badge";
 import { Button } from "~/lib/components/ui/button";
@@ -58,7 +58,6 @@ const makeData = (len: number) =>
       label: faker.helpers.shuffle<Task["label"]>(["bug", "feature", "enhancement", "documentation"])[0] ?? "bug",
     })
   );
-
 const filteredStatusList = () =>
   ["todo", "in-progress", "done", "cancelled"].map((e) => ({
     title: e,
@@ -74,130 +73,15 @@ const TableColumnHeader = <TData, TValue>(props: VoidProps<{ column: Column<TDat
       fallback={<span class="text-sm font-medium">{local.title}</span>}
     >
       <div class="flex items-center space-x-2">
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <As
-              component={Button}
-              aria-label={
-                local.column.getIsSorted() === "desc"
-                  ? "Sorted descending. Click to sort ascending."
-                  : local.column.getIsSorted() === "asc"
-                  ? "Sorted ascending. Click to sort descending."
-                  : "Not sorted. Click to sort ascending."
-              }
-              variant="ghost"
-              class="-ml-4 h-8 data-[expanded]:bg-accent"
-            >
-              <span>{local.title}</span>
-              <div class="ml-1">
-                <Switch
-                  fallback={
-                    <svg xmlns="http://www.w3.org/2000/svg" class="size-3.5" viewBox="0 0 24 24" aria-hidden="true">
-                      <path
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="m8 9l4-4l4 4m0 6l-4 4l-4-4"
-                      />
-                    </svg>
-                  }
-                >
-                  <Match when={local.column.getIsSorted() === "asc"}>
-                    <svg xmlns="http://www.w3.org/2000/svg" class="size-3.5" viewBox="0 0 24 24" aria-hidden="true">
-                      <path
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M12 5v14m4-10l-4-4M8 9l4-4"
-                      />
-                    </svg>
-                  </Match>
-                  <Match when={local.column.getIsSorted() === "desc"}>
-                    <svg xmlns="http://www.w3.org/2000/svg" class="size-3.5" viewBox="0 0 24 24" aria-hidden="true">
-                      <path
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M12 5v14m4-4l-4 4m-4-4l4 4"
-                      />
-                    </svg>
-                  </Match>
-                </Switch>
-              </div>
-            </As>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            <Show when={local.column.getCanSort()}>
-              <DropdownMenuItem aria-label="Sort ascending" onClick={() => local.column.toggleSorting(false, true)}>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="mr-2 size-4 text-muted-foreground/70"
-                  aria-hidden="true"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M12 5v14m4-10l-4-4M8 9l4-4"
-                  />
-                </svg>
-                Asc
-              </DropdownMenuItem>
-              <DropdownMenuItem aria-label="Sort descending" onClick={() => local.column.toggleSorting(true, true)}>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="mr-2 size-4 text-muted-foreground/70"
-                  aria-hidden="true"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M12 5v14m4-4l-4 4m-4-4l4 4"
-                  />
-                </svg>
-                Desc
-              </DropdownMenuItem>
-            </Show>
-
-            <Show when={local.column.getCanSort() && local.column.getCanHide()}>
-              <DropdownMenuSeparator />
-            </Show>
-
-            <Show when={local.column.getCanHide()}>
-              <DropdownMenuItem aria-label="Hide column" onClick={() => local.column.toggleVisibility(false)}>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="mr-2 size-4 text-muted-foreground/70"
-                  aria-hidden="true"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M21 9c-2.4 2.667-5.4 4-9 4c-3.6 0-6.6-1.333-9-4m0 6l2.5-3.8M21 14.976L18.508 11.2M9 17l.5-4m5.5 4l-.5-4"
-                  />
-                </svg>
-                Hide
-              </DropdownMenuItem>
-            </Show>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <Button
+          variant="ghost"
+          class="-ml-4 h-8 data-[expanded]:bg-accent flex gap-2"
+          onclick={() => props.column.toggleSorting(undefined, true)}
+        >
+          <span>{local.title}</span>
+          {local.column.getIsSorted() === "desc" && <icons.ArrowUp class="size-4" />}
+          {local.column.getIsSorted() === "asc" && <icons.ArrowDown class="size-4" />}
+        </Button>
       </div>
     </Show>
   );
@@ -256,81 +140,22 @@ const columns: ColumnDef<Task>[] = [
   {
     accessorKey: "status",
     header: (props) => <TableColumnHeader column={props.column} title="Status" />,
-    cell: (props) => (
-      <div class="flex w-32 items-center">
-        <Switch>
-          <Match when={props.row.original.status === "cancelled"}>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="1em"
-              height="1em"
-              class="mr-2 size-4 text-muted-foreground"
-              aria-hidden="true"
-              viewBox="0 0 24 24"
-            >
-              <path
-                fill="none"
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M10 20.777a8.942 8.942 0 0 1-2.48-.969M14 3.223a9.003 9.003 0 0 1 0 17.554m-9.421-3.684a8.961 8.961 0 0 1-1.227-2.592M3.124 10.5c.16-.95.468-1.85.9-2.675l.169-.305m2.714-2.941A8.954 8.954 0 0 1 10 3.223M14 14l-4-4m0 4l4-4"
-              />
-            </svg>
-          </Match>
-          <Match when={props.row.original.status === "done"}>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="1em"
-              height="1em"
-              class="mr-2 size-4 text-muted-foreground"
-              aria-hidden="true"
-              viewBox="0 0 24 24"
-            >
-              <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-                <path d="M10 20.777a8.942 8.942 0 0 1-2.48-.969M14 3.223a9.003 9.003 0 0 1 0 17.554m-9.421-3.684a8.961 8.961 0 0 1-1.227-2.592M3.124 10.5c.16-.95.468-1.85.9-2.675l.169-.305m2.714-2.941A8.954 8.954 0 0 1 10 3.223" />
-                <path d="m9 12l2 2l4-4" />
-              </g>
-            </svg>
-          </Match>
-          <Match when={props.row.original.status === "in-progress"}>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="1em"
-              height="1em"
-              class="mr-2 size-4 text-muted-foreground"
-              aria-hidden="true"
-              viewBox="0 0 24 24"
-            >
-              <path
-                fill="none"
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M10 20.777a8.942 8.942 0 0 1-2.48-.969M14 3.223a9.003 9.003 0 0 1 0 17.554m-9.421-3.684a8.961 8.961 0 0 1-1.227-2.592M3.124 10.5c.16-.95.468-1.85.9-2.675l.169-.305m2.714-2.941A8.954 8.954 0 0 1 10 3.223M12 9l-2 3h4l-2 3"
-              />
-            </svg>
-          </Match>
-          <Match when={props.row.original.status === "todo"}>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="1em"
-              height="1em"
-              class="mr-2 size-4 text-muted-foreground"
-              aria-hidden="true"
-              viewBox="0 0 24 24"
-            >
-              <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-                <path d="M12 16v.01M12 13a2 2 0 0 0 .914-3.782a1.98 1.98 0 0 0-2.414.483M10 20.777a8.942 8.942 0 0 1-2.48-.969" />
-                <path d="M14 3.223a9.003 9.003 0 0 1 0 17.554m-9.421-3.684a8.961 8.961 0 0 1-1.227-2.592M3.124 10.5c.16-.95.468-1.85.9-2.675l.169-.305m2.714-2.941A8.954 8.954 0 0 1 10 3.223" />
-              </g>
-            </svg>
-          </Match>
-        </Switch>
-        <span class="capitalize">{props.row.original.status}</span>
-      </div>
-    ),
+    cell: (props) => {
+      const statusColor = () =>
+        ({
+          todo: "bg-red-500",
+          "in-progress": "bg-yellow-500",
+          done: "bg-green-500",
+          cancelled: "bg-gray-500",
+        }[props.row.original.status] ?? "bg-gray-500");
+      return (
+        <div class="flex gap-2 px-2 items-center relative w-fit">
+          <div class={"absolute inset-0 rounded-sm opacity-10 " + statusColor()} />
+          <div class={"size-2 rounded-full " + statusColor()} />
+          <span class="capitalize">{props.row.original.status}</span>
+        </div>
+      );
+    },
     filterFn: (row, id, value) => {
       return Array.isArray(value) && value.includes(row.getValue(id));
     },
@@ -339,17 +164,10 @@ const columns: ColumnDef<Task>[] = [
     id: "actions",
     cell: () => (
       <DropdownMenu placement="bottom-end">
-        <DropdownMenuTrigger class="flex items-center justify-center">
-          <svg xmlns="http://www.w3.org/2000/svg" class="size-4" viewBox="0 0 24 24">
-            <path
-              fill="none"
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M4 12a1 1 0 1 0 2 0a1 1 0 1 0-2 0m7 0a1 1 0 1 0 2 0a1 1 0 1 0-2 0m7 0a1 1 0 1 0 2 0a1 1 0 1 0-2 0"
-            />
-          </svg>
+        <DropdownMenuTrigger asChild>
+          <As component={Button} variant="ghost" class="px-2">
+            <icons.Ellipsis class="h-4" />
+          </As>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
           <DropdownMenuItem>Edit</DropdownMenuItem>
@@ -366,7 +184,7 @@ const searchParamSchema = z.object({
   sort: z.string().optional(),
 });
 
-const DataTableDemo = () => {
+const DataTable = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   // const { sort, page, per_page } = searchParamSchema.parse(searchParams);
@@ -546,7 +364,7 @@ const DataTableDemo = () => {
             <DropdownMenuTrigger asChild>
               <As component={Button} aria-label="Toggle columns" variant="outline" class="flex">
                 <icons.Eye class="h-4" />
-                View
+                {/* View */}
               </As>
             </DropdownMenuTrigger>
             <DropdownMenuContent class="w-40">
@@ -577,11 +395,12 @@ const DataTableDemo = () => {
               as={(props: TooltipTriggerProps) => (
                 <Button {...props}>
                   <icons.CirclePlus class="h-4" />
-                  {i18n.t({ en: "Add product", nl: "Artikel Toevoegen" })()}
+                  Nieuw
                 </Button>
               )}
             />
             <TooltipContent>
+              {i18n.t({ en: "Add product", nl: "Artikel Toevoegen" })()}
               <ShortcutLabel for={addProduct} />
             </TooltipContent>
           </Tooltip>
@@ -619,7 +438,7 @@ const DataTableDemo = () => {
             <TableRow class="block absolute inset-0 bg-card border-b"> </TableRow>
 
             <For each={table.getHeaderGroups()}>
-              {(headerGroup, i) => (
+              {(headerGroup) => (
                 <TableRow class="relative z-[5] border-none">
                   <For each={headerGroup.headers}>
                     {(header) => {
@@ -664,4 +483,4 @@ const DataTableDemo = () => {
   );
 };
 
-export default DataTableDemo;
+export default DataTable;

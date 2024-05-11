@@ -1,5 +1,5 @@
 import Menu from "../lib/components/menu";
-import DataTableDemo from "../lib/components/dataTableDemo";
+import DataTable from "~/lib/components/dataTable";
 import { icons } from "lucide-solid";
 import { Button } from "~/lib/components/ui/button";
 import {
@@ -37,11 +37,7 @@ export default function Index() {
           <DropdownMenu placement="bottom-start">
             <DropdownMenuTrigger
               as={(props) => (
-                <Button
-                  variant="outline"
-                  class="p-2 rounded-full h-[unset] text-muted-foreground"
-                  {...props}
-                >
+                <Button variant="outline" class="p-2 rounded-full h-[unset] text-muted-foreground" {...props}>
                   <icons.User />
                 </Button>
               )}
@@ -119,16 +115,10 @@ export default function Index() {
                   <span>{i18n.t({ en: "Theme", nl: "Thema" })()}</span>
                 </DropdownMenuSubTrigger>
                 <DropdownMenuSubContent>
-                  <DropdownMenuCheckboxItem
-                    checked={darkMode()}
-                    onClick={() => setDarkMode(true)}
-                  >
+                  <DropdownMenuCheckboxItem checked={darkMode()} onClick={() => setDarkMode(true)}>
                     {i18n.t({ en: "Dark", nl: "Donker" })()}
                   </DropdownMenuCheckboxItem>
-                  <DropdownMenuCheckboxItem
-                    checked={!darkMode()}
-                    onClick={() => setDarkMode(false)}
-                  >
+                  <DropdownMenuCheckboxItem checked={!darkMode()} onClick={() => setDarkMode(false)}>
                     {i18n.t({ en: "Light", nl: "Licht" })()}
                   </DropdownMenuCheckboxItem>
                 </DropdownMenuSubContent>
@@ -143,7 +133,7 @@ export default function Index() {
           </DropdownMenu>
         </div>
 
-        <DataTableDemo />
+        <DataTable />
       </main>
     </div>
   );
