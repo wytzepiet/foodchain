@@ -15,7 +15,7 @@ const main = async () => {
   // Seed the database with 10 test
   // await seed.test((x) => x(10));
 
-  await seed.products((x) => x(10));
+  await seed.products((x) => x(1000));
 
   // Type completion not working? You might want to reload your TypeScript Server to pick up the changes
 

@@ -4,7 +4,7 @@ import postgres from "postgres";
 
 export default defineConfig({
   adapter: () => {
-    const password = process.env.DB_PASSWORD;
+    const password = import.meta.env.VITE_DB_PASSWORD;
     const client = postgres(
       `postgres://postgres.ltvozwxmtlodnvmcjhst:${password}@aws-0-eu-central-1.pooler.supabase.com:5432/postgres`
     );

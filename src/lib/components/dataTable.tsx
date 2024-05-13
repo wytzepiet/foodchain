@@ -11,7 +11,7 @@ import {
   getSortedRowModel,
 } from "@tanstack/solid-table";
 import type { VoidProps } from "solid-js";
-import { For, Show, createSignal, splitProps } from "solid-js";
+import { For, Show, createResource, createSignal, splitProps } from "solid-js";
 import { z } from "zod";
 import { Badge } from "~/lib/components/ui/badge";
 import { Button } from "~/lib/components/ui/button";
@@ -39,25 +39,36 @@ import ShortcutLabel from "./shortcutLabel";
 import createShortcut from "../utilities/shortcut";
 import { Tooltip, TooltipContent, TooltipTrigger } from "~/lib/components/ui/tooltip";
 import type { TooltipTriggerProps } from "@kobalte/core/dist/types/tooltip";
+import { supabase } from "../utilities/database/client";
+import { QueryData } from "@supabase/supabase-js";
 
-type Task = {
-  id: string;
-  code: string;
-  title: string;
-  status: "todo" | "in-progress" | "done" | "cancelled";
-  label: "bug" | "feature" | "enhancement" | "documentation";
-};
+// type Task = {
+//   id: string;
+//   code: string;
+//   title: string;
+//   status: "todo" | "in-progress" | "done" | "cancelled";
+//   label: "bug" | "feature" | "enhancement" | "documentation";
+// };
 
-const makeData = (len: number) =>
-  Array.from({ length: len }, (_, i) => i).map(
-    (): Task => ({
-      id: faker.string.nanoid(),
-      code: `TASK-${faker.string.numeric({ length: 2 })}`,
-      title: faker.hacker.phrase().replace(/^./, (letter) => letter.toUpperCase()),
-      status: faker.helpers.shuffle<Task["status"]>(["todo", "in-progress", "done", "cancelled"])[0] ?? "todo",
-      label: faker.helpers.shuffle<Task["label"]>(["bug", "feature", "enhancement", "documentation"])[0] ?? "bug",
-    })
-  );
+// const makeData = (len: number) =>
+//   Array.from({ length: len }, (_, i) => i).map(
+//     (): Task => ({
+//       id: faker.string.nanoid(),
+//       code: `TASK-${faker.string.numeric({ length: 2 })}`,
+//       title: faker.hacker.phrase().replace(/^./, (letter) => letter.toUpperCase()),
+//       status: faker.helpers.shuffle<Task["status"]>(["todo", "in-progress", "done", "cancelled"])[0] ?? "todo",
+//       label: faker.helpers.shuffle<Task["label"]>(["bug", "feature", "enhancement", "documentation"])[0] ?? "bug",
+//     })
+//   );
+
+const query = supabase.from("products").select().limit(50);
+type Product = QueryData<typeof query>[0];
+
+(async () => {
+  const data = await query;
+  console.log(data);
+})();
+
 const filteredStatusList = () =>
   ["todo", "in-progress", "done", "cancelled"].map((e) => ({
     title: e,
@@ -87,7 +98,7 @@ const TableColumnHeader = <TData, TValue>(props: VoidProps<{ column: Column<TDat
   );
 };
 
-const columns: ColumnDef<Task>[] = [
+const columns: ColumnDef<Product>[] = [
   {
     id: "selects",
     header: (props) => (
@@ -116,50 +127,58 @@ const columns: ColumnDef<Task>[] = [
   },
   {
     accessorKey: "code",
-    header: (props) => <TableColumnHeader column={props.column} title="Task" />,
-    cell: (props) => (
-      <div class="w-[70px]">
-        <Button variant="ghost" class="h-8 whitespace-nowrap">
-          {props.row.getValue("code")}
-        </Button>
-      </div>
-    ),
+    header: (props) => <TableColumnHeader column={props.column} title="Code" />,
+    cell: (props) => <div class="min-w-[120px]">{props.row.getValue("code")}</div>,
     enableSorting: false,
     enableHiding: false,
   },
   {
-    accessorKey: "title",
-    header: (props) => <TableColumnHeader column={props.column} title="Title" />,
-    cell: (props) => (
-      <div class="flex space-x-2">
-        <Badge variant="outline">{props.row.original.label}</Badge>
-        <span class="max-w-[250px] truncate ">{props.row.getValue("title")}</span>
-      </div>
-    ),
+    accessorKey: "brand",
+    header: (props) => <TableColumnHeader column={props.column} title="Brand" />,
+    cell: (props) => <div>{props.row.getValue("brand")}</div>,
+    enableSorting: false,
+    enableHiding: false,
   },
   {
-    accessorKey: "status",
-    header: (props) => <TableColumnHeader column={props.column} title="Status" />,
-    cell: (props) => {
-      const statusColor = () =>
-        ({
-          todo: "bg-red-500",
-          "in-progress": "bg-yellow-500",
-          done: "bg-green-500",
-          cancelled: "bg-gray-500",
-        }[props.row.original.status] ?? "bg-gray-500");
-      return (
-        <div class="flex gap-2 px-2 items-center relative w-fit">
-          <div class={"absolute inset-0 rounded-sm opacity-10 " + statusColor()} />
-          <div class={"size-2 rounded-full " + statusColor()} />
-          <span class="capitalize">{props.row.original.status}</span>
-        </div>
-      );
-    },
-    filterFn: (row, id, value) => {
-      return Array.isArray(value) && value.includes(row.getValue(id));
-    },
+    accessorKey: "price",
+    header: (props) => <TableColumnHeader column={props.column} title="Price" />,
+    cell: (props) => <div>{props.row.getValue("price")}</div>,
+    enableSorting: false,
+    enableHiding: false,
   },
+  // {
+  //   accessorKey: "title",
+  //   header: (props) => <TableColumnHeader column={props.column} title="Title" />,
+  //   cell: (props) => (
+  //     <div class="flex space-x-2">
+  //       <Badge variant="outline">{props.row.original.label}</Badge>
+  //       <span class="max-w-[250px] truncate ">{props.row.getValue("title")}</span>
+  //     </div>
+  //   ),
+  // },
+  // {
+  //   accessorKey: "status",
+  //   header: (props) => <TableColumnHeader column={props.column} title="Status" />,
+  //   cell: (props) => {
+  //     const statusColor = () =>
+  //       ({
+  //         todo: "bg-red-500",
+  //         "in-progress": "bg-yellow-500",
+  //         done: "bg-green-500",
+  //         cancelled: "bg-gray-500",
+  //       }[props.row.original.status] ?? "bg-gray-500");
+  //     return (
+  //       <div class="flex gap-2 px-2 items-center relative w-fit">
+  //         <div class={"absolute inset-0 rounded-sm opacity-10 " + statusColor()} />
+  //         <div class={"size-2 rounded-full " + statusColor()} />
+  //         <span class="capitalize">{props.row.original.status}</span>
+  //       </div>
+  //     );
+  //   },
+  //   filterFn: (row, id, value) => {
+  //     return Array.isArray(value) && value.includes(row.getValue(id));
+  //   },
+  // },
   {
     id: "actions",
     cell: () => (
@@ -192,7 +211,7 @@ const DataTable = () => {
 
   const sortingParams = sort?.split(",").map((v) => v.split(".")) ?? [];
 
-  const [data] = createSignal(makeData(100));
+  const [data] = createResource(async () => (await query).data);
   const [rowSelection, setRowSelection] = createSignal({});
   const [columnVisibility, setColumnVisibility] = createSignal<VisibilityState>({});
   const [columnFilters, setColumnFilters] = createSignal<ColumnFiltersState>([]);
@@ -202,40 +221,10 @@ const DataTable = () => {
       desc: v[1] === "desc",
     }))
   );
-  // const [pagination, setPagination] = createSignal<PaginationState>({
-  //   pageIndex: page - 1,
-  //   pageSize: per_page,
-  // });
-
-  // onMount(() => {
-  //   setSearchParams({
-  //     page: searchParams.page !== undefined ? searchParams.page : 1,
-  //     per_page:
-  //       searchParams.per_page !== undefined ? searchParams.per_page : 10,
-  //   });
-  // });
-
-  // createEffect(
-  //   on(
-  //     [pagination, sorting],
-  //     ([p, s]) => {
-  //       setSearchParams({
-  //         page: p.pageIndex + 1,
-  //         per_page: p.pageSize,
-  //         sort: s
-  //           .map((v) => (v.id ? `${v.id}.${v.desc ? "desc" : "asc"}` : null))
-  //           .join(","),
-  //       });
-  //     },
-  //     {
-  //       defer: true,
-  //     }
-  //   )
-  // );
 
   const table = createSolidTable({
     get data() {
-      return data();
+      return data() ?? [];
     },
     columns,
     state: {

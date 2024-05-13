@@ -8,7 +8,7 @@ export type Database = {
           brand: number | null;
           code: string | null;
           created_at: string;
-          id: number; 
+          id: number;
           org_id: number | null;
           price: number | null;
         };
